@@ -119,6 +119,35 @@
             background: #660099;
             margin: 15px auto 0;
         }
+
+        .whatsapp-botao-centro {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.botao-whatsapp {
+  background-color: #660099;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.botao-whatsapp:hover {
+  background-color: #4a007a;
+}
+
+.botao-whatsapp i {
+  font-size: 18px;
+}
     </style>
 </head>
 <body class="bg-gray-50">
@@ -200,7 +229,7 @@
                 
                 <div class="md:w-1/2">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6 section-title">Quem Somos</h2>
-                    <p class="text-gray-600 mb-6">Somos um parceiro autorizo da Vivo Empresas, com mais de 5 anos de atuação no mercado B2B. Nosso time é especializado em conectar empresas de todos os portes às melhores soluções em telefonia, internet empresarial e mobilidade corporativa.</p>
+                    <p class="text-gray-600 mb-6">Somos um parceiro autorizado Vivo Empresas, com mais de 5 anos de atuação no mercado B2B. Nosso time é especializado em conectar empresas de todos os portes às melhores soluções em telefonia, internet empresarial e mobilidade corporativa.</p>
                     <p class="text-gray-600 mb-8">Mais do que vender, entregamos consultoria — entendemos a real necessidade de cada negócio e oferecemos soluções eficientes, com acompanhamento completo antes, durante e após a contratação.</p>
                     
                     <div class="grid grid-cols-2 gap-6">
@@ -419,35 +448,17 @@
         <div class="text-center mb-16">
             <h2 class="text-3xl font-bold text-gray-800 mb-4 section-title">Fale Conosco</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">Tem dúvidas ou quer migrar seu plano? Nossa equipe está pronta para atender sua empresa com a agilidade que ela merece.</p>
+            <div class="whatsapp-botao-centro">
+                <a href="https://wa.me/554491158956" target="_blank">
+                  <button class="botao-whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                    
+                  </button>
+                </a>
+              </div>
         </div>
         
-        <div class="flex flex-col lg:flex-row gap-12">
-            <div class="lg:w-1/2">
-                <form action="https://formsubmit.co/vini0911gomez.contas@gmail.com" method="POST" class="space-y-6">
-                    <div>
-                        <input type="text" id="name" name="name" class="w-full px-4 py-3 form-input focus:outline-none" placeholder="Seu nome" required>
-                    </div>
-                    
-                    <div>
-                        <input type="email" id="email" name="email" class="w-full px-4 py-3 form-input focus:outline-none" placeholder="Seu e-mail" required>
-                    </div>
-                    
-                    <div>
-                        <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 form-input focus:outline-none" placeholder="Seu telefone">
-                    </div>
-                    
-                    <div>
-                        <input type="text" id="company" name="company" class="w-full px-4 py-3 form-input focus:outline-none" placeholder="Sua empresa">
-                    </div>
-                    
-                    <div>
-                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 form-input focus:outline-none" placeholder="Como podemos ajudar?"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="w-full vivo-purple text-white py-3 rounded-lg font-medium hover:bg-purple-800 transition-colors">
-                        Enviar Mensagem
-                    </button>
-                </form>
+        
             </div>
             
             <div class="lg:w-1/2">
