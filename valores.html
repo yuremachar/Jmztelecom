@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMZ Telecom | Parceira Vivo Empresas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .vivo-purple {
+            background-color: #660099;
+        }
+
+        .vivo-purple-text {
+            color: #660099;
+        }
+
+        .vivo-purple-border {
+            border-color: #660099;
+        }
+
+        .gradient-overlay {
+            background: linear-gradient(135deg, rgba(102,0,153,0.8) 0%, rgba(0,0,0,0.6) 100%);
+        }
+
+        .hero-image {
+            background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        .service-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #660099;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(245,245,245,0.9) 100%);
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: rgba(102,0,153,0.1);
+        }
+
+        .form-input {
+            border-bottom: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-bottom-color: #660099;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #660099;
+            margin: 15px auto 0;
+        }
+
+        .whatsapp-botao-centro {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .botao-whatsapp {
+            background-color: #660099;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .botao-whatsapp:hover {
+            background-color: #4a007a;
+        }
+
+        .botao-whatsapp i {
+            font-size: 18px;
+        }
+
+        /* Estilos novos que estavam no segundo código */
+        .pricing-card {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0.05rem;
+            right: 0.05rem;
+            background-color: #f59e0b;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transform: none;
+        }
+
+        .btn-plan {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            text-align: center;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-plan:hover {
+            background-color: #6b21a8;
+            color: white;
+        }
+
+        .vivo-gestao:hover {
+            color: #6b21a8;
+        }
+
+        .tooltip {
+            pointer-events: none;
+        }
+
+        .text-vivo-purple-text {
+            color: #6b21a8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/554491158956?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20Vivo%20Empresas" 
+       class="floating-whatsapp bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl hover:bg-green-600 transition-colors">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+   <!-- Navigation -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <div class="flex items-center">
+                    <a href="https://yuremachar.github.io/Jmztelecom/">
+                        <img src="https://i.ibb.co/cK3C2ZtZ/Sem-T-tulo-4.png" alt="Sem-T-tulo-4" border="0" style="height: 110px; width: auto;">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Início</a>
+                <a href="valores.html" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Pacotes</a>
+            
+                <a href="https://wa.me/554491158956" class="vivo-purple text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-800 transition-colors">
+                    <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                </a>
+            </div>
+            
+            <button class="md:hidden focus:outline-none" id="menu-toggle">
+                <i class="fas fa-bars text-gray-700 text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden mt-4" id="mobile-menu">
+            <a href="#home" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Início</a>
+        
+            <a href="valores.html" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Pacotes</a>
+            <a href="https://wa.me/554491158956" class="block vivo-purple text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-800 transition-colors mt-2 text-center">
+                <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+</nav>
+    <!-- Mobile Plans Section -->
+    <section id="mobile-plans" class="py-16">
+        <div class="container mx-auto px-6 max-w-6xl">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Planos Móveis Corporativos</h2>
+            <p class="text-gray-600">Ligações ilimitadas, internet 5G e franquia compartilhada para sua equipe</p>
+          </div>
+      
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Todos os planos móveis -->
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Smart Empresas 6GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 39,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>Internet 5G</li>
+                <li>Ligações ilimitadas</li>
+                <li>Franquia compartilhada</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Smart Empresas 6GB" data-price="39.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Smart Empresas 15GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 54,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>Internet 5G</li>
+                <li>Ligações ilimitadas</li>
+                <li>Franquia compartilhada</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Smart Empresas 15GB" data-price="54.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Smart Empresas 20GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 59,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>Internet 5G</li>
+                <li>Ligações ilimitadas</li>
+                <li>Franquia compartilhada</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Smart Empresas 20GB" data-price="59.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Smart Empresas 30GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 69,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>Internet 5G</li>
+                <li>Ligações ilimitadas</li>
+                <li>Franquia compartilhada</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Smart Empresas 30GB" data-price="69.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Smart Empresas 40GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 79,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>Internet 5G</li>
+                <li>Ligações ilimitadas</li>
+                <li>Franquia compartilhada</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Smart Empresas 40GB" data-price="79.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Smart Empresas 100GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 99,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>Internet 5G</li>
+                <li>Ligações ilimitadas</li>
+                <li>Franquia compartilhada</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Smart Empresas 100GB" data-price="99.99">Adicionar ao carrinho</button>
+            </div>
+          </div>
+      
+          <div class="text-center mt-16 mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Internet Fibra Empresarial</h2>
+            <p class="text-gray-600">Conectividade de alta performance com suporte prioritário</p>
+          </div>
+      
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Planos de fibra empresarial -->
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Fibra 400MB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 79,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>400MB de velocidade</li>
+                <li>Link dedicado 1:1</li>
+                <li>IP Fixo incluso</li>
+                <li>Suporte 24/7</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Fibra 400MB" data-price="79.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Fibra 500MB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 99,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>500MB de velocidade</li>
+                <li>Link dedicado 1:1</li>
+                <li>IP Fixo incluso</li>
+                <li>Suporte 24/7</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Fibra 500MB" data-price="99.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Fibra 600MB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 129,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>600MB de velocidade</li>
+                <li>Link dedicado 1:1</li>
+                <li>IP Fixo incluso</li>
+                <li>Suporte 24/7</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Fibra 600MB" data-price="129.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Fibra 700MB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 139,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>700MB de velocidade</li>
+                <li>Link dedicado 1:1</li>
+                <li>IP Fixo incluso</li>
+                <li>Suporte 24/7</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Fibra 700MB" data-price="139.99">Adicionar ao carrinho</button>
+            </div>
+            <div class="pricing-card bg-white border border-gray-200 rounded-xl p-6 text-center">
+              <h3 class="text-xl font-bold text-gray-800">Fibra 1GB</h3>
+              <div class="text-3xl font-bold text-vivo-purple-text my-3">R$ 299,99</div>
+              <div class="text-gray-500 mb-4">mensais</div>
+              <ul class="text-left space-y-2 mb-4">
+                <li>1GB de velocidade</li>
+                <li>Link dedicado 1:1</li>
+                <li>5 IPs Fixos inclusos</li>
+                <li>Cloud Backup 500GB</li>
+                <li>Gerente dedicado</li>
+              </ul>
+              <button class="btn-plan w-full" data-name="Fibra 1GB" data-price="299.99">Adicionar ao carrinho</button>
+            </div>
+          </div>
+      
+        </div>
+       <!-- CARRINHO -->
+  <div id="cart" class="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg shadow-lg p-4 w-80 hidden z-50">
+    <div class="flex justify-between items-center mb-2">
+      <h4 class="text-lg font-bold flex items-center">
+        <svg class="w-6 h-6 text-purple-700 mr-2 animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M7 4h-2l-3 9v11h18v-11l-3-9h-2l-1.4-4h-5.2l-1.4 4zm1 2h8l2 6h-12l2-6zm0 8h10v7h-10v-7z"/></svg>
+        Carrinho
+      </h4>
+      <button id="toggle-cart" class="text-gray-500 hover:text-gray-800">
+        <svg id="toggle-icon" class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="cart-items" class="space-y-2"></div>
+    <div class="mt-4 text-right font-semibold">
+      Total: <span id="cart-total">R$ 0,00</span>
+    </div>
+    <button id="checkout-button" class="mt-4 w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
+      Finalizar no WhatsApp
+    </button>
+  </div>
+
+  <script>
+    const plans = [
+      { name: "Smart Empresas 6GB", price: 39.99 },
+      { name: "Smart Empresas 15GB", price: 54.99 },
+      { name: "Smart Empresas 20GB", price: 59.99 },
+      { name: "Smart Empresas 30GB", price: 69.99 },
+      { name: "Smart Empresas 40GB", price: 79.99 },
+      { name: "Smart Empresas 100GB", price: 99.99 }
+    ];
+  document.addEventListener('DOMContentLoaded', () => {
+    const cartItems = [];
+
+    function addToCart(name, price) {
+      cartItems.push({ name, price });
+      updateCartUI();
+      showCart();
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      cartItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center border-b pb-1';
+        div.innerHTML = `<span>${item.name}</span><span>R$ ${item.price.toFixed(2).replace('.', ',')}</span>`;
+        container.appendChild(div);
+      });
+      const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('cart-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function showCart() {
+      document.getElementById('cart').classList.remove('hidden');
+    }
+
+    function toggleCart() {
+      const cart = document.getElementById('cart');
+      const icon = document.getElementById('toggle-icon');
+      cart.classList.toggle('h-12');
+      cart.classList.toggle('overflow-hidden');
+      if (cart.classList.contains('h-12')) {
+        icon.classList.add('rotate-180');
+      } else {
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    document.querySelectorAll('.btn-plan').forEach(button => {
+      button.addEventListener('click', () => {
+        const name = button.getAttribute('data-name');
+        const price = parseFloat(button.getAttribute('data-price'));
+        addToCart(name, price);
+      });
+    });
+
+    document.getElementById('toggle-cart').addEventListener('click', toggleCart);
+
+    document.getElementById('checkout-button').addEventListener('click', () => {
+      if (cartItems.length === 0) return alert('Seu carrinho está vazio!');
+      const message = cartItems
+        .map(item => `• ${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')}`)
+        .join('%0A');
+      const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+      const finalMsg = `Olá! Tenho interesse nos seguintes planos:%0A${message}%0A%0ATotal: R$ ${total.toFixed(2).replace('.', ',')}`;
+      const encoded = encodeURIComponent(finalMsg);
+      window.open(`https://wa.me/554491158956?text=${encoded}`, '_blank');
+    });
+  });
+  </script>
+  
+      </section>
+    <!-- Fiber Plans Section -->
+    
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="vivo-purple text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <a href="https://yuremachar.github.io/Jmztelecom/"><img src="https://i.ibb.co/nMJdzHFZ/Sem-T-tulo-4.png" alt="Sem-T-tulo-4" border="0"></a>     
+                            <span class="ml-2 text-purple-200 font-small text-sm">Parceiro autorizado</span>
+                    </div>
+                    <p class="text-purple-200 text-sm">Parceira oficial Vivo Empresas com soluções em telecomunicações para empresas de todos os portes.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-purple-200 hover:text-white transition-colors text-sm">Início</a></li>
+                        <li><a href="#about" class="text-purple-200 hover:text-white transition-colors text-sm">Quem Somos</a></li>
+                        <li><a href="#services" class="text-purple-200 hover:text-white transition-colors text-sm">Serviços</a></li>
+                        <li><a href="#advantages" class="text-purple-200 hover:text-white transition-colors text-sm">Diferenciais</a></li>
+                        <li><a href="#contact" class="text-purple-200 hover:text-white transition-colors text-sm">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Serviços</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Planos Móveis</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Internet Fibra</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Portabilidade</a></li>
+                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Atendimento Consultivo</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contato</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2 text-purple-200 text-sm"></i>
+                            <span class="text-purple-200 text-sm">(44) 9 9115-8956</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-purple-200 text-sm"></i>
+                            <span class="text-purple-200 text-sm">atendimentovivoempresas@jmztecom.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-purple-200 text-sm"></i>
+                            <span class="text-purple-200 text-sm">Maringá - PR</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-purple-200 hover:text-white text-lg"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-purple-200 hover:text-white text-lg"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-purple-200 hover:text-white text-lg"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-purple-800 mt-8 pt-8 text-center text-purple-200 text-sm">
+                <p>&copy; 2020 JMZ Telecom - Parceira Vivo Empresas. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+       
+ 
+    </script>
+</body>
+</html>
