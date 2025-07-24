@@ -1,618 +1,2199 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JMZ Telecom | Parceira Vivo Empresas</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
-        
-        .vivo-purple {
-            background-color: #660099;
-        }
-        
-        .vivo-purple-text {
-            color: #660099;
-        }
-        
-        .vivo-purple-border {
-            border-color: #660099;
-        }
-        
-        .gradient-overlay {
-            background: linear-gradient(135deg, rgba(102,0,153,0.8) 0%, rgba(0,0,0,0.6) 100%);
-        }
-        
-        .hero-image {
-            background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        
-        .floating-whatsapp {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 100;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-            }
-        }
-        
-        .service-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
-        }
-        
-        .nav-link {
-            position: relative;
-        }
-        
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: #660099;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover:after {
-            width: 100%;
-        }
-        
-        .testimonial-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(245,245,245,0.9) 100%);
-            backdrop-filter: blur(5px);
-        }
-        
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            background: rgba(102,0,153,0.1);
-        }
-        
-        .form-input {
-            border-bottom: 2px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            border-bottom-color: #660099;
-        }
-        
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background: #660099;
-            margin: 15px auto 0;
-        }
+import React, { useState, useEffect } from 'react';
+import { 
+  ShoppingCart, 
+  Search, 
+  User, 
+  Heart, 
+  Menu, 
+  X, 
+  Star, 
+  Truck, 
+  Shield, 
+  RefreshCw, 
+  Percent,
+  Facebook,
+  Instagram,
+  Twitter,
+  Linkedin,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Minus,
+  MapPin,
+  Phone,
+  Mail,
+  Filter,
+  Grid,
+  List,
+  Share2,
+  ZoomIn,
+  Package,
+  CreditCard,
+  QrCode,
+  FileText,
+  CheckCircle,
+  AlertCircle,
+  Info
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-        .whatsapp-botao-centro {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [cartItems, setCartItems] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+  const [quantity, setQuantity] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({
+    category: '',
+    size: '',
+    color: '',
+    priceRange: '',
+    sortBy: 'featured'
+  });
+  const [showNewsletterPopup, setShowNewsletterPopup] = useState(true);
+  const [showChat, setShowChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatInput, setChatInput] = useState('');
 
-.botao-whatsapp {
-  background-color: #660099;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: background-color 0.3s ease;
-}
+  // Mock data
+  const products = [
+    {
+      id: 1,
+      name: "Vestido Elegante Midi",
+      price: 299.90,
+      originalPrice: 350.00,
+      image: "https://placehold.co/400x500/f5f1e6/8b7355?text=Vestido+Elegante",
+      images: [
+        "https://placehold.co/400x500/f5f1e6/8b7355?text=Vestido+Elegante+1",
+        "https://placehold.co/400x500/f8e6e6/8b7355?text=Vestido+Elegante+2",
+        "https://placehold.co/400x500/f0e6d2/8b7355?text=Vestido+Elegante+3"
+      ],
+      category: "vestidos",
+      sizes: ["P", "M", "G"],
+      colors: ["Bege", "Preto", "Branco"],
+      tags: ["new"],
+      description: "Vestido midi elegante com tecido leve e caimento perfeito. Ideal para eventos e ocasiões especiais.",
+      fabric: "Viscose 100%",
+      measurements: "Comprimento: 110cm, Busto: 86cm, Cintura: 68cm",
+      care: "Lavar à mão, não alvejar, secar na sombra"
+    },
+    {
+      id: 2,
+      name: "Conjunto Casual Chic",
+      price: 280.00,
+      originalPrice: 350.00,
+      image: "https://placehold.co/400x500/f8e6e6/8b7355?text=Conjunto+Casual",
+      images: [
+        "https://placehold.co/400x500/f8e6e6/8b7355?text=Conjunto+Casual+1",
+        "https://placehold.co/400x500/f5f1e6/8b7355?text=Conjunto+Casual+2"
+      ],
+      category: "conjuntos",
+      sizes: ["P", "M", "G", "GG"],
+      colors: ["Rosa", "Azul", "Verde"],
+      tags: ["sale"],
+      description: "Conjunto casual perfeito para o dia a dia. Combina conforto e estilo.",
+      fabric: "Algodão 95%, Elastano 5%",
+      measurements: "Top: Busto 86cm, Comprimento 55cm. Calça: Cintura 68cm, Quadril 92cm",
+      care: "Lavar à máquina em ciclo delicado, secar na sombra"
+    },
+    {
+      id: 3,
+      name: "Blusa Cropped Estampada",
+      price: 189.90,
+      image: "https://placehold.co/400x500/f0e6d2/8b7355?text=Blusa+Cropped",
+      images: [
+        "https://placehold.co/400x500/f0e6d2/8b7355?text=Blusa+Cropped+1",
+        "https://placehold.co/400x500/f5f1e6/8b7355?text=Blusa+Cropped+2"
+      ],
+      category: "blusas",
+      sizes: ["P", "M", "G"],
+      colors: ["Amarelo", "Laranja", "Vermelho"],
+      tags: ["limited"],
+      description: "Blusa cropped com estampa exclusiva. Peça versátil para looks modernos.",
+      fabric: "Poliéster 100%",
+      measurements: "Busto: 82cm, Comprimento: 42cm",
+      care: "Lavar à máquina em temperatura baixa, passar a ferro em temperatura média"
+    },
+    {
+      id: 4,
+      name: "Calça Pantacourt",
+      price: 249.90,
+      image: "https://placehold.co/400x500/f5f1e6/8b7355?text=Calça+Pantacourt",
+      images: [
+        "https://placehold.co/400x500/f5f1e6/8b7355?text=Calça+Pantacourt+1",
+        "https://placehold.co/400x500/f8e6e6/8b7355?text=Calça+Pantacourt+2"
+      ],
+      category: "calças",
+      sizes: ["36", "38", "40", "42"],
+      colors: ["Preto", "Bege", "Cinza"],
+      tags: ["new"],
+      description: "Calça pantacourt elegante com corte moderno. Perfeita para trabalho e eventos.",
+      fabric: "Viscose 70%, Poliéster 30%",
+      measurements: "Cintura: 68cm, Quadril: 92cm, Comprimento: 85cm",
+      care: "Lavar à máquina em ciclo delicado, secar na sombra"
+    }
+  ];
 
-.botao-whatsapp:hover {
-  background-color: #4a007a;
-}
+  const testimonials = [
+    {
+      id: 1,
+      name: "Ana Clara",
+      age: 28,
+      text: "As peças são de ótima qualidade e o caimento é perfeito! Já comprei várias vezes e sempre chegam rápido.",
+      rating: 5
+    },
+    {
+      id: 2,
+      name: "Juliana M.",
+      age: 32,
+      text: "Adorei o atendimento e a facilidade de troca. As roupas são exatamente como na foto, super recomendo!",
+      rating: 4.5
+    },
+    {
+      id: 3,
+      name: "Mariana S.",
+      age: 25,
+      text: "Encontrei looks perfeitos para todas as ocasiões. A qualidade dos tecidos é impressionante!",
+      rating: 5
+    }
+  ];
 
-.botao-whatsapp i {
-  font-size: 18px;
-}
-    </style>
-</head>
-<body class="bg-gray-50">
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/554491158956?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20Vivo%20Empresas" 
-       class="floating-whatsapp bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl hover:bg-green-600 transition-colors">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+  const categories = [
+    { name: "Vestidos", icon: "👗", id: "vestidos" },
+    { name: "Conjuntos", icon: "套装", id: "conjuntos" },
+    { name: "Blusas", icon: "👚", id: "blusas" },
+    { name: "Calças", icon: "👖", id: "calças" },
+    { name: "Acessórios", icon: "👜", id: "acessórios" },
+    { name: "Saias", icon: "👗", id: "saias" }
+  ];
 
-<!-- Navigation -->
-<nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-6 py-4">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <div class="flex items-center">
-                    <a href="https://yuremachar.github.io/Jmztelecom/">
-                        <img src="https://i.ibb.co/cK3C2ZtZ/Sem-T-tulo-4.png" alt="Sem-T-tulo-4" border="0" style="height: 110px; width: auto;">
-                    </a>
+  const quickLinks = [
+    { name: "Para o Trabalho", icon: "💼", id: "trabalho" },
+    { name: "Para a Noite", icon: "🌙", id: "noite" },
+    { name: "Casual", icon: "☕", id: "casual" },
+    { name: "Eventos", icon: "🎉", id: "eventos" }
+  ];
+
+  const features = [
+    { 
+      icon: <Truck className="w-8 h-8" />, 
+      title: "Frete Grátis", 
+      description: "Para compras acima de R$ 299,90" 
+    },
+    { 
+      icon: <Percent className="w-8 h-8" />, 
+      title: "10% na Primeira Compra", 
+      description: "Use o cupom BEMVINDA10" 
+    },
+    { 
+      icon: <RefreshCw className="w-8 h-8" />, 
+      title: "Troca Facilitada", 
+      description: "Até 30 dias após a compra" 
+    },
+    { 
+      icon: <Shield className="w-8 h-8" />, 
+      title: "Compra Segura", 
+      description: "Ambiente 100% protegido" 
+    }
+  ];
+
+  // Funções utilitárias
+  const addToCart = (product, qty = 1) => {
+    const existingItem = cartItems.find(item => item.id === product.id);
+    if (existingItem) {
+      setCartItems(cartItems.map(item => 
+        item.id === product.id 
+          ? { ...item, quantity: item.quantity + qty }
+          : item
+      ));
+    } else {
+      setCartItems([...cartItems, { ...product, quantity: qty }]);
+    }
+  };
+
+  const removeFromCart = (productId) => {
+    setCartItems(cartItems.filter(item => item.id !== productId));
+  };
+
+  const updateQuantity = (productId, newQuantity) => {
+    if (newQuantity === 0) {
+      removeFromCart(productId);
+    } else {
+      setCartItems(cartItems.map(item => 
+        item.id === productId 
+          ? { ...item, quantity: newQuantity }
+          : item
+      ));
+    }
+  };
+
+  const toggleWishlist = (product) => {
+    if (wishlist.find(item => item.id === product.id)) {
+      setWishlist(wishlist.filter(item => item.id !== product.id));
+    } else {
+      setWishlist([...wishlist, product]);
+    }
+  };
+
+  const filteredProducts = products.filter(product => {
+    return (
+      (filters.category === '' || product.category === filters.category) &&
+      (searchQuery === '' || product.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  });
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  // Componentes
+  const Header = () => {
+    return (
+      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <button 
+                className="md:hidden mr-2"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+              <h1 className="text-2xl font-serif font-bold text-amber-800">
+                Laymi<span className="text-amber-600">Store</span>
+              </h1>
+            </div>
+
+            <nav className="hidden md:flex space-x-8">
+              <button onClick={() => setCurrentPage('home')} className="text-gray-700 hover:text-amber-800 transition-colors">Home</button>
+              <button onClick={() => setCurrentPage('shop')} className="text-gray-700 hover:text-amber-800 transition-colors">Loja</button>
+              <div className="relative group">
+                <button className="text-gray-700 hover:text-amber-800 transition-colors flex items-center">
+                  Categorias <ChevronDown className="ml-1 w-4 h-4" />
+                </button>
+                <div className="absolute hidden group-hover:block top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
+                  {categories.map(category => (
+                    <button
+                      key={category.id}
+                      onClick={() => {
+                        setFilters({ ...filters, category: category.id });
+                        setCurrentPage('shop');
+                      }}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-amber-50 hover:text-amber-800"
+                    >
+                      {category.name}
+                    </button>
+                  ))}
                 </div>
+              </div>
+              <button onClick={() => setCurrentPage('about')} className="text-gray-700 hover:text-amber-800 transition-colors">Sobre</button>
+              <button onClick={() => setCurrentPage('contact')} className="text-gray-700 hover:text-amber-800 transition-colors">Contato</button>
+            </nav>
+
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
+              </div>
+              <button onClick={() => setCurrentPage('account')} className="text-gray-700 hover:text-amber-800">
+                <User className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={() => setCurrentPage('wishlist')}
+                className="text-gray-700 hover:text-amber-800 relative"
+              >
+                <Heart className="w-5 h-5" />
+                {wishlist.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-amber-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {wishlist.length}
+                  </span>
+                )}
+              </button>
+              <button 
+                onClick={() => setCurrentPage('cart')}
+                className="text-gray-700 hover:text-amber-800 relative"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-amber-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+                  </span>
+                )}
+              </button>
             </div>
-            
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Início</a>
-                <a href="#about" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Quem Somos</a>
-                <a href="valores.html" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Pacotes</a>
-                <a href="#advantages" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Diferenciais</a>
-                <a href="#contact" class="nav-link text-gray-700 hover:text-vivo-purple-text font-medium">Contato</a>
-                <a href="https://wa.me/554491158956" class="vivo-purple text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-800 transition-colors">
-                    <i class="fab fa-whatsapp mr-2"></i> WhatsApp
-                </a>
-            </div>
-            
-            <button class="md:hidden focus:outline-none" id="menu-toggle">
-                <i class="fas fa-bars text-gray-700 text-xl"></i>
-            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white border-t"
+            >
+              <div className="px-4 py-2 space-y-2">
+                <button onClick={() => {setCurrentPage('home'); setIsMenuOpen(false);}} className="block w-full text-left py-2">Home</button>
+                <button onClick={() => {setCurrentPage('shop'); setIsMenuOpen(false);}} className="block w-full text-left py-2">Loja</button>
+                <div className="py-2">
+                  <div className="font-medium py-2">Categorias</div>
+                  {categories.map(category => (
+                    <button
+                      key={category.id}
+                      onClick={() => {
+                        setFilters({ ...filters, category: category.id });
+                        setCurrentPage('shop');
+                        setIsMenuOpen(false);
+                      }}
+                      className="block w-full text-left py-2 pl-4 text-gray-600"
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={() => {setCurrentPage('about'); setIsMenuOpen(false);}} className="block w-full text-left py-2">Sobre</button>
+                <button onClick={() => {setCurrentPage('contact'); setIsMenuOpen(false);}} className="block w-full text-left py-2">Contato</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+    );
+  };
+
+  const HeroBanner = () => {
+    return (
+      <section className="mt-16 h-96 md:h-screen bg-gradient-to-r from-amber-50 to-rose-50 flex items-center justify-center relative overflow-hidden">
+        <div className="text-center z-10 px-4">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-6xl font-serif font-bold text-amber-900 mb-4"
+          >
+            Elegância que Combina com Você
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-amber-800 mb-8 max-w-2xl mx-auto"
+          >
+            Descubra nossa nova coleção de peças únicas para todas as ocasiões
+          </motion.p>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            onClick={() => setCurrentPage('shop')}
+            className="bg-amber-800 text-white px-8 py-3 rounded-full font-medium hover:bg-amber-700 transition-colors"
+          >
+            Ver Coleção
+          </motion.button>
+        </div>
+        <div className="absolute inset-0 bg-pattern opacity-10"></div>
+      </section>
+    );
+  };
+
+  const ProductCard = ({ product }) => {
+    const isWishlisted = wishlist.find(item => item.id === product.id);
+
+    return (
+      <motion.div
+        layout
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow group"
+      >
+        <div className="relative">
+          <img 
+            src={product.image} 
+            alt={product.name}
+            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div className="absolute top-2 left-2 flex space-x-1">
+            {product.tags.includes('new') && (
+              <span className="bg-amber-600 text-white text-xs px-2 py-1 rounded">Novo</span>
+            )}
+            {product.tags.includes('sale') && (
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">-20%</span>
+            )}
+            {product.tags.includes('limited') && (
+              <span className="bg-purple-500 text-white text-xs px-2 py-1 rounded">Últimas Unidades</span>
+            )}
+          </div>
+          <button
+            onClick={() => toggleWishlist(product)}
+            className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-sm transition-colors ${
+              isWishlisted 
+                ? 'bg-amber-600 text-white' 
+                : 'bg-white/80 text-gray-600 hover:bg-amber-600 hover:text-white'
+            }`}
+          >
+            <Heart className="w-4 h-4" fill={isWishlisted ? 'currentColor' : 'none'} />
+          </button>
+        </div>
+        <div className="p-4">
+          <h3 className="font-medium text-gray-900 mb-2">{product.name}</h3>
+          <div className="flex items-center space-x-2">
+            {product.originalPrice && (
+              <span className="text-gray-500 line-through text-sm">R$ {product.originalPrice.toFixed(2)}</span>
+            )}
+            <span className="font-bold text-amber-800">R$ {product.price.toFixed(2)}</span>
+          </div>
+          <button
+            onClick={() => {
+              setSelectedProduct(product);
+              setCurrentPage('product');
+            }}
+            className="w-full mt-3 bg-amber-800 text-white py-2 rounded-md text-sm font-medium hover:bg-amber-700 transition-colors"
+          >
+            Ver Detalhes
+          </button>
+        </div>
+      </motion.div>
+    );
+  };
+
+  const ProductGrid = ({ products }) => {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    );
+  };
+
+  const HomePage = () => {
+    return (
+      <div>
+        <HeroBanner />
         
-        <!-- Mobile Menu -->
-        <div class="md:hidden hidden mt-4" id="mobile-menu">
-            <a href="#home" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Início</a>
-            <a href="#about" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Quem Somos</a>
-            <!-- Substituição aqui também -->
-            <a href="valores.html" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Pacotes</a>
-            <a href="#advantages" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Diferenciais</a>
-            <a href="#contact" class="block py-2 text-gray-700 hover:text-vivo-purple-text font-medium">Contato</a>
-            <a href="https://wa.me/554491158956" class="block vivo-purple text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-800 transition-colors mt-2 text-center">
-                <i class="fab fa-whatsapp mr-2"></i> WhatsApp
-            </a>
-        </div>
-    </div>
-</nav>
-    <!-- Hero Section -->
-    <section id="home" class="hero-image relative">
-        <div class="gradient-overlay absolute inset-0"></div>
-        <div class="container mx-auto px-6 py-32 relative z-10">
-            <div class="max-w-2xl">
-                <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Transformamos Conectividade em Resultado</h1>
-                <p class="text-xl text-white mb-8">Soluções completas em telecomunicações para empresas. Atendimento personalizado, planos sob medida e suporte dedicado com a confiança da Vivo Empresas.</p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="https://wa.me/554491158956" class="vivo-purple text-white px-8 py-3 rounded-lg font-medium text-center hover:bg-purple-800 transition-colors">
-                        <i class="fab fa-whatsapp mr-2"></i> Fale Conosco via WhatsApp
-                    </a>
-                    <a href="#services" class="bg-white text-vivo-purple-text border vivo-purple-border px-8 py-3 rounded-lg font-medium text-center hover:bg-gray-100 transition-colors">
-                        Nossos Serviços
-                    </a>
-                </div>
+        {/* Featured Products */}
+        <section className="py-16 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-serif font-bold text-amber-900 mb-4">Novidades</h2>
+              <p className="text-gray-600">Peças selecionadas para o seu estilo</p>
             </div>
-        </div>
-    </section>
+            <ProductGrid products={products.slice(0, 4)} />
+          </div>
+        </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
-                         alt="Equipe JMZ Telecom" class="rounded-xl shadow-xl">
-                </div>
-                
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 section-title">Quem Somos</h2>
-                    <p class="text-gray-600 mb-6">Somos um parceiro autorizado Vivo Empresas, com mais de 5 anos de atuação no mercado B2B. Nosso time é especializado em conectar empresas de todos os portes às melhores soluções em telefonia, internet empresarial e mobilidade corporativa.</p>
-                    <p class="text-gray-600 mb-8">Mais do que vender, entregamos consultoria — entendemos a real necessidade de cada negócio e oferecemos soluções eficientes, com acompanhamento completo antes, durante e após a contratação.</p>
-                    
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-check-circle text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Atendimento Consultivo</h4>
-                                <p class="text-gray-600 text-sm">Entendemos seu negócio para oferecer a melhor solução</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-check-circle text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Suporte Dedicado</h4>
-                                <p class="text-gray-600 text-sm">Equipe técnica especializada para resolver seus problemas</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-check-circle text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Soluções Customizadas</h4>
-                                <p class="text-gray-600 text-sm">Planos adaptados ao tamanho e necessidade da sua empresa</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-check-circle text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Migração Facilitada</h4>
-                                <p class="text-gray-600 text-sm">Processo simplificado para portabilidade de números</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        {/* Quick Links */}
+        <section className="py-16 px-4 bg-amber-50">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-serif font-bold text-amber-900 mb-4">Encontre seu Estilo</h2>
+              <p className="text-gray-600">Escolha a ocasião perfeita</p>
             </div>
-        </div>
-    </section>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {quickLinks.map((link, index) => (
+                <motion.div
+                  key={link.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => {
+                    setFilters({ ...filters, category: link.id });
+                    setCurrentPage('shop');
+                  }}
+                >
+                  <div className="text-3xl mb-3">{link.icon}</div>
+                  <h3 className="font-medium text-gray-900">{link.name}</h3>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4 section-title">Nossos Serviços</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Soluções em telecomunicações com a qualidade e confiabilidade Vivo Empresas</p>
+        {/* Newsletter */}
+        <section className="py-16 px-4 bg-gradient-to-r from-rose-50 to-amber-50">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-serif font-bold text-amber-900 mb-4">Fique por Dentro</h2>
+            <p className="text-gray-600 mb-8">Receba novidades e cupons exclusivos</p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+              <button className="bg-amber-800 text-white px-6 py-3 rounded-full font-medium hover:bg-amber-700 transition-colors">
+                Inscrever-se
+              </button>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Plano Móvel -->
-                <div class="service-card bg-white rounded-xl p-8">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Planos Móveis Corporativos</h3>
-                    <p class="text-gray-600 text-center mb-4">Planos pós com ligações ilimitadas, internet 5G, franquia compartilhada e tudo isso a partir de R$39,99.</p>
-                    <div class="text-center">
-                        <a href="#contact" class="inline-block text-sm vivo-purple-text font-medium hover:underline">Saiba mais →</a>
-                    </div>
-                </div>
-                
-                <!-- Internet Fibra -->
-                <div class="service-card bg-white rounded-xl p-8">
-                    <div class="feature-icon">
-                        <i class="fas fa-wifi text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Internet Fibra Empresarial</h3>
-                    <p class="text-gray-600 text-center mb-4">Alta velocidade, estabilidade e suporte técnico prioritário. A melhor experiência em conectividade para sua empresa a partir de R$79,99.</p>
-                    <div class="text-center">
-                        <a href="#contact" class="inline-block text-sm vivo-purple-text font-medium hover:underline">Saiba mais →</a>
-                    </div>
-                </div>
-                
-                <!-- Portabilidade -->
-                <div class="service-card bg-white rounded-xl p-8">
-                    <div class="feature-icon">
-                        <i class="fas fa-exchange-alt text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Portabilidade Facilitada</h3>
-                    <p class="text-gray-600 text-center mb-4">Migrar de operadora sem dor de cabeça: cuidamos de tudo para você manter seu número com planos mais vantajosos.</p>
-                    <div class="text-center">
-                        <a href="#contact" class="inline-block text-sm vivo-purple-text font-medium hover:underline">Saiba mais →</a>
-                    </div>
-                </div>
-                
-                <!-- Atendimento -->
-                <div class="service-card bg-white rounded-xl p-8">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Atendimento Consultivo</h3>
-                    <p class="text-gray-600 text-center mb-4">Você fala com pessoas, não com robôs. Nossa equipe entende seu negócio e propõe a melhor solução com agilidade e transparência.</p>
-                    <div class="text-center">
-                        <a href="#contact" class="inline-block text-sm vivo-purple-text font-medium hover:underline">Saiba mais →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+          </div>
+        </section>
 
-    <!-- Advantages Section -->
-    <section id="advantages" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4 section-title">Por que escolher a gente?</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Diferenciais que fazem a diferença no atendimento empresarial</p>
+        {/* Testimonials */}
+        <section className="py-16 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-serif font-bold text-amber-900 mb-4">O que Nossas Clientes Dizem</h2>
+              <p className="text-gray-600">Experiências reais de quem ama Laymi</p>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                <div class="text-center p-6">
-                    <div class="feature-icon">
-                        <i class="fas fa-calendar-alt text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Planos Fixos</h3>
-                    <p class="text-gray-600">Valores congelados por até 24 meses sem reajustes surpresa</p>
-                </div>
-                
-                <div class="text-center p-6">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-tie text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Suporte Dedicado</h3>
-                    <p class="text-gray-600">Consultor exclusivo para atender sua empresa com agilidade</p>
-                </div>
-                
-                <div class="text-center p-6">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Atendimento Ágil</h3>
-                    <p class="text-gray-600">Respostas rápidas e soluções sem burocracia</p>
-                </div>
-                
-                <div class="text-center p-6">
-                    <div class="feature-icon">
-                        <i class="fas fa-graduation-cap text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Equipe Qualificada</h3>
-                    <p class="text-gray-600">Profissionais treinados e certificados pela Vivo</p>
-                </div>
-                
-                <div class="text-center p-6">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line text-2xl vivo-purple-text"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Foco em Resultados</h3>
-                    <p class="text-gray-600">Atuação nacional com soluções que geram valor</p>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white p-6 rounded-lg shadow-md"
+                >
+                  <div className="flex text-amber-400 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-4 italic">"{testimonial.text}"</p>
+                  <p className="font-medium text-amber-800">- {testimonial.name}, {testimonial.age} anos</p>
+                </motion.div>
+              ))}
             </div>
-        </div>
-    </section>
+          </div>
+        </section>
 
-    <!-- Testimonials Section -->
-    <section class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4 section-title">Depoimentos</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">O que nossos clientes dizem sobre nossos serviços</p>
+        {/* About */}
+        <section className="py-16 px-4 bg-amber-50">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-3xl font-serif font-bold text-amber-900 mb-6">A Laymi Store</h2>
+                <p className="text-gray-700 mb-4">
+                  Fundada em 2020, a Laymi Store nasceu do desejo de oferecer roupas femininas que combinam elegância, conforto e versatilidade. Nossa missão é empoderar mulheres através da moda, criando peças que celebram a individualidade e a confiança.
+                </p>
+                <p className="text-gray-700 mb-6">
+                  Cada coleção é cuidadosamente desenvolvida pensando no estilo contemporâneo e nas necessidades do dia a dia moderno. Trabalhamos com tecidos sustentáveis e acabamentos de alta qualidade para garantir peças que duram.
+                </p>
+                <button 
+                  onClick={() => setCurrentPage('about')}
+                  className="bg-amber-800 text-white px-6 py-3 rounded-full font-medium hover:bg-amber-700 transition-colors"
+                >
+                  Conheça Nossa História
+                </button>
+              </div>
+              <div className="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
+                <img 
+                  src="https://placehold.co/500x400/f5f1e6/8b7355?text=Laymi+Store" 
+                  alt="Laymi Store" 
+                  className="max-w-full max-h-full object-cover rounded-lg"
+                />
+              </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="testimonial-card p-8 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"A gente migrou 30 linhas pra Vivo com o suporte da JMZ e deu tudo certo. O processo foi tranquilo do começo ao fim. Hoje temos mais controle e o custo-benefício melhorou bastante.
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold text-gray-800">Ricardo M.</h4>
-                            <p class="text-gray-600 text-sm">Diretor Comercial</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card p-8 rounded-xl">
-                    <div class="flex items-center mb-4">
-                        <div class="text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-6 italic">"O atendimento foi muito bom, com respostas rápidas e acompanhamento de verdade. Escolher a Vivo foi uma ótima decisão pra nossa empresa."</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/women/53.jpg" alt="Cliente" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold text-gray-800">Paula V.</h4>
-                            <p class="text-gray-600 text-sm">Gerente De Finanças</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+          </div>
+        </section>
 
-    <!-- Contact Section -->
-<section id="contact" class="py-20 bg-white">
-    <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4 section-title">Fale Conosco</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Tem dúvidas ou quer migrar seu plano? Nossa equipe está pronta para atender sua empresa com a agilidade que ela merece.</p>
-            <div class="whatsapp-botao-centro">
-                <a href="https://wa.me/554491158956" target="_blank">
-                  <button class="botao-whatsapp">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                    
+        {/* Features */}
+        <section className="py-16 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-serif font-bold text-amber-900 mb-4">Por Que Escolher a Laymi</h2>
+              <p className="text-gray-600">Nossos diferenciais para sua melhor experiência</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-amber-800">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-bold text-lg text-amber-900 mb-2">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  };
+
+  const ShopPage = () => {
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filters */}
+            <div className="lg:w-1/4">
+              <div className="bg-white p-6 rounded-lg shadow-md sticky top-24">
+                <h3 className="font-bold text-lg mb-4 flex items-center">
+                  <Filter className="w-5 h-5 mr-2" />
+                  Filtros
+                </h3>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="font-medium mb-2">Categorias</h4>
+                    <div className="space-y-2">
+                      {categories.map(category => (
+                        <label key={category.id} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={filters.category === category.id}
+                            onChange={() => setFilters({ 
+                              ...filters, 
+                              category: filters.category === category.id ? '' : category.id 
+                            })}
+                            className="mr-2"
+                          />
+                          {category.name}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium mb-2">Preço</h4>
+                    <select
+                      value={filters.priceRange}
+                      onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    >
+                      <option value="">Todos os preços</option>
+                      <option value="0-100">Até R$ 100</option>
+                      <option value="100-200">R$ 100 - R$ 200</option>
+                      <option value="200-300">R$ 200 - R$ 300</option>
+                      <option value="300+">Acima de R$ 300</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium mb-2">Ordenar por</h4>
+                    <select
+                      value={filters.sortBy}
+                      onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    >
+                      <option value="featured">Destaques</option>
+                      <option value="newest">Mais Recentes</option>
+                      <option value="price-low">Menor Preço</option>
+                      <option value="price-high">Maior Preço</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Products */}
+            <div className="lg:w-3/4">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-serif font-bold text-amber-900">
+                  {filters.category 
+                    ? categories.find(c => c.id === filters.category)?.name 
+                    : 'Todas as Peças'}
+                </h2>
+                <div className="flex items-center space-x-2">
+                  <button className="p-2 border border-gray-300 rounded">
+                    <Grid className="w-5 h-5" />
                   </button>
+                  <button className="p-2 border border-gray-300 rounded">
+                    <List className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {filteredProducts.length > 0 ? (
+                <ProductGrid products={filteredProducts} />
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">Nenhum produto encontrado.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const ProductPage = () => {
+    if (!selectedProduct) return null;
+
+    const handleAddToCart = () => {
+      if (!selectedSize) {
+        alert('Por favor, selecione um tamanho');
+        return;
+      }
+      if (!selectedColor) {
+        alert('Por favor, selecione uma cor');
+        return;
+      }
+      addToCart(selectedProduct, quantity);
+      alert('Produto adicionado ao carrinho!');
+    };
+
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Product Images */}
+            <div>
+              <div className="relative mb-4">
+                <img 
+                  src={selectedProduct.images[currentImageIndex]} 
+                  alt={selectedProduct.name}
+                  className="w-full h-96 object-cover rounded-lg"
+                />
+                <button 
+                  onClick={() => setCurrentImageIndex(prev => 
+                    prev > 0 ? prev - 1 : selectedProduct.images.length - 1
+                  )}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => setCurrentImageIndex(prev => 
+                    prev < selectedProduct.images.length - 1 ? prev + 1 : 0
+                  )}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="flex space-x-2">
+                {selectedProduct.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-20 h-20 border-2 rounded-lg overflow-hidden ${
+                      currentImageIndex === index ? 'border-amber-600' : 'border-gray-200'
+                    }`}
+                  >
+                    <img src={image} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Product Info */}
+            <div>
+              <h1 className="text-3xl font-serif font-bold text-amber-900 mb-4">
+                {selectedProduct.name}
+              </h1>
+              
+              <div className="flex items-center space-x-2 mb-6">
+                {selectedProduct.originalPrice && (
+                  <span className="text-gray-500 line-through">R$ {selectedProduct.originalPrice.toFixed(2)}</span>
+                )}
+                <span className="text-2xl font-bold text-amber-800">R$ {selectedProduct.price.toFixed(2)}</span>
+              </div>
+
+              <p className="text-gray-700 mb-6">{selectedProduct.description}</p>
+
+              {/* Size Selection */}
+              <div className="mb-6">
+                <h3 className="font-medium mb-2">Tamanho</h3>
+                <div className="flex space-x-2">
+                  {selectedProduct.sizes.map(size => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-4 py-2 border rounded-md ${
+                        selectedSize === size 
+                          ? 'bg-amber-800 text-white border-amber-800' 
+                          : 'border-gray-300 hover:border-amber-600'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+                <button className="text-amber-800 text-sm mt-2 hover:underline">
+                  Ver Tabela de Medidas
+                </button>
+              </div>
+
+              {/* Color Selection */}
+              <div className="mb-6">
+                <h3 className="font-medium mb-2">Cor</h3>
+                <div className="flex space-x-2">
+                  {selectedProduct.colors.map(color => (
+                    <button
+                      key={color}
+                      onClick={() => setSelectedColor(color)}
+                      className={`px-4 py-2 border rounded-md ${
+                        selectedColor === color 
+                          ? 'bg-amber-800 text-white border-amber-800' 
+                          : 'border-gray-300 hover:border-amber-600'
+                      }`}
+                    >
+                      {color}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quantity */}
+              <div className="mb-6">
+                <h3 className="font-medium mb-2">Quantidade</h3>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-10 h-10 border border-gray-300 rounded-md flex items-center justify-center"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="w-12 text-center">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-10 h-10 border border-gray-300 rounded-md flex items-center justify-center"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex space-x-4 mb-8">
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 bg-amber-800 text-white py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+                >
+                  Adicionar ao Carrinho
+                </button>
+                <button
+                  onClick={() => {
+                    handleAddToCart();
+                    setCurrentPage('checkout');
+                  }}
+                  className="flex-1 bg-amber-600 text-white py-3 rounded-md font-medium hover:bg-amber-500 transition-colors"
+                >
+                  Comprar Agora
+                </button>
+              </div>
+
+              {/* Share */}
+              <div className="flex items-center space-x-4 mb-8">
+                <span className="text-gray-600">Compartilhar:</span>
+                <button className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
+                  <Share2 className="w-5 h-5" />
+                </button>
+                <button className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                  <Share2 className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Product Details */}
+              <div className="border-t pt-6">
+                <h3 className="font-bold mb-3">Detalhes do Produto</h3>
+                <div className="space-y-2 text-sm">
+                  <p><span className="font-medium">Tecido:</span> {selectedProduct.fabric}</p>
+                  <p><span className="font-medium">Medidas:</span> {selectedProduct.measurements}</p>
+                  <p><span className="font-medium">Instruções de Lavagem:</span> {selectedProduct.care}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Related Products */}
+          <div className="mt-16">
+            <h2 className="text-2xl font-serif font-bold text-amber-900 mb-8">Você também pode gostar</h2>
+            <ProductGrid products={products.filter(p => p.id !== selectedProduct.id).slice(0, 4)} />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const CartPage = () => {
+    const subtotal = getTotalPrice();
+    const shipping = subtotal > 299.90 ? 0 : 25.00;
+    const total = subtotal + shipping;
+
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-serif font-bold text-amber-900 mb-8">Seu Carrinho</h1>
+          
+          {cartItems.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-6">Seu carrinho está vazio</p>
+              <button 
+                onClick={() => setCurrentPage('shop')}
+                className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+              >
+                Continuar Comprando
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2">
+                {cartItems.map(item => (
+                  <div key={item.id} className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm mb-4">
+                    <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded" />
+                    <div className="flex-1">
+                      <h3 className="font-medium">{item.name}</h3>
+                      <p className="text-amber-800 font-bold">R$ {item.price.toFixed(2)}</p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="w-8 h-8 border border-gray-300 rounded flex items-center justify-center"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="w-8 text-center">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="w-8 h-8 border border-gray-300 rounded flex items-center justify-center"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm h-fit">
+                <h3 className="font-bold text-lg mb-4">Resumo do Pedido</h3>
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>R$ {subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Frete</span>
+                    <span>{shipping === 0 ? 'Grátis' : `R$ ${shipping.toFixed(2)}`}</span>
+                  </div>
+                  <div className="border-t pt-3 flex justify-between font-bold">
+                    <span>Total</span>
+                    <span>R$ {total.toFixed(2)}</span>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => setCurrentPage('checkout')}
+                  className="w-full bg-amber-800 text-white py-3 rounded-md font-medium hover:bg-amber-700 transition-colors mb-3"
+                >
+                  Finalizar Compra
+                </button>
+                <button
+                  onClick={() => setCurrentPage('shop')}
+                  className="w-full border border-amber-800 text-amber-800 py-3 rounded-md font-medium hover:bg-amber-50 transition-colors"
+                >
+                  Continuar Comprando
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const CheckoutPage = () => {
+    const [step, setStep] = useState(1);
+    const [formData, setFormData] = useState({
+      email: '',
+      firstName: '',
+      lastName: '',
+      cpf: '',
+      phone: '',
+      cep: '',
+      address: '',
+      number: '',
+      complement: '',
+      neighborhood: '',
+      city: '',
+      state: '',
+      paymentMethod: 'credit',
+      cardNumber: '',
+      cardName: '',
+      cardExpiry: '',
+      cardCvv: ''
+    });
+
+    const subtotal = getTotalPrice();
+    const shipping = subtotal > 299.90 ? 0 : 25.00;
+    const total = subtotal + shipping;
+
+    const handleInputChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+      });
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      alert('Pedido realizado com sucesso!');
+      setCartItems([]);
+      setCurrentPage('home');
+    };
+
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-3xl font-serif font-bold text-amber-900 mb-8">Finalizar Compra</h1>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <div className="flex space-x-4 mb-6">
+                  {[1, 2, 3].map(num => (
+                    <div key={num} className={`flex-1 text-center ${step >= num ? 'text-amber-800' : 'text-gray-400'}`}>
+                      <div className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center ${
+                        step >= num ? 'bg-amber-800 text-white' : 'bg-gray-200'
+                      }`}>
+                        {num}
+                      </div>
+                      <span className="text-sm">
+                        {num === 1 ? 'Dados' : num === 2 ? 'Entrega' : 'Pagamento'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {step === 1 && (
+                  <form className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">E-mail</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-300 rounded-md"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Nome</label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Sobrenome</label>
+                        <input
+                          type="text"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">CPF</label>
+                        <input
+                          type="text"
+                          name="cpf"
+                          value={formData.cpf}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Telefone</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setStep(2)}
+                      className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+                    >
+                      Continuar
+                    </button>
+                  </form>
+                )}
+
+                {step === 2 && (
+                  <form className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">CEP</label>
+                      <input
+                        type="text"
+                        name="cep"
+                        value={formData.cep}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-300 rounded-md"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Endereço</label>
+                        <input
+                          type="text"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Número</label>
+                        <input
+                          type="text"
+                          name="number"
+                          value={formData.number}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Complemento</label>
+                      <input
+                        type="text"
+                        name="complement"
+                        value={formData.complement}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Bairro</label>
+                        <input
+                          type="text"
+                          name="neighborhood"
+                          value={formData.neighborhood}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Cidade</label>
+                        <input
+                          type="text"
+                          name="city"
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="flex space-x-4">
+                      <button
+                        type="button"
+                        onClick={() => setStep(1)}
+                        className="border border-amber-800 text-amber-800 px-6 py-3 rounded-md font-medium hover:bg-amber-50 transition-colors"
+                      >
+                        Voltar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStep(3)}
+                        className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+                      >
+                        Continuar
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {step === 3 && (
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Forma de Pagamento</label>
+                      <div className="space-y-2">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="credit"
+                            checked={formData.paymentMethod === 'credit'}
+                            onChange={handleInputChange}
+                            className="mr-2"
+                          />
+                          Cartão de Crédito
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="pix"
+                            checked={formData.paymentMethod === 'pix'}
+                            onChange={handleInputChange}
+                            className="mr-2"
+                          />
+                          PIX
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="boleto"
+                            checked={formData.paymentMethod === 'boleto'}
+                            onChange={handleInputChange}
+                            className="mr-2"
+                          />
+                          Boleto Bancário
+                        </label>
+                      </div>
+                    </div>
+
+                    {formData.paymentMethod === 'credit' && (
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Número do Cartão</label>
+                          <input
+                            type="text"
+                            name="cardNumber"
+                            value={formData.cardNumber}
+                            onChange={handleInputChange}
+                            className="w-full p-3 border border-gray-300 rounded-md"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Nome no Cartão</label>
+                          <input
+                            type="text"
+                            name="cardName"
+                            value={formData.cardName}
+                            onChange={handleInputChange}
+                            className="w-full p-3 border border-gray-300 rounded-md"
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">Validade</label>
+                            <input
+                              type="text"
+                              name="cardExpiry"
+                              value={formData.cardExpiry}
+                              onChange={handleInputChange}
+                              placeholder="MM/AA"
+                              className="w-full p-3 border border-gray-300 rounded-md"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">CVV</label>
+                            <input
+                              type="text"
+                              name="cardCvv"
+                              value={formData.cardCvv}
+                              onChange={handleInputChange}
+                              className="w-full p-3 border border-gray-300 rounded-md"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {formData.paymentMethod === 'pix' && (
+                      <div className="text-center py-8">
+                        <QrCode className="w-32 h-32 mx-auto mb-4" />
+                        <p className="text-gray-600">Escaneie o QR Code para pagar com PIX</p>
+                      </div>
+                    )}
+
+                    {formData.paymentMethod === 'boleto' && (
+                      <div className="text-center py-8">
+                        <FileText className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                        <p className="text-gray-600">O boleto será gerado após a confirmação do pedido</p>
+                      </div>
+                    )}
+
+                    <div className="flex space-x-4">
+                      <button
+                        type="button"
+                        onClick={() => setStep(2)}
+                        className="border border-amber-800 text-amber-800 px-6 py-3 rounded-md font-medium hover:bg-amber-50 transition-colors"
+                      >
+                        Voltar
+                      </button>
+                      <button
+                        type="submit"
+                        className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+                      >
+                        Finalizar Pedido
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm h-fit">
+              <h3 className="font-bold text-lg mb-4">Resumo do Pedido</h3>
+              <div className="space-y-4 mb-6">
+                {cartItems.map(item => (
+                  <div key={item.id} className="flex justify-between">
+                    <span>{item.name} x {item.quantity}</span>
+                    <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                ))}
+                <div className="border-t pt-4 space-y-2">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>R$ {subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Frete</span>
+                    <span>{shipping === 0 ? 'Grátis' : `R$ ${shipping.toFixed(2)}`}</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-lg">
+                    <span>Total</span>
+                    <span>R$ {total.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const AccountPage = () => {
+    const [activeTab, setActiveTab] = useState('orders');
+
+    const orders = [
+      { id: '#12345', date: '15/03/2024', status: 'Entregue', total: 299.90 },
+      { id: '#12344', date: '10/03/2024', status: 'Em trânsito', total: 189.90 },
+      { id: '#12343', date: '05/03/2024', status: 'Cancelado', total: 249.90 }
+    ];
+
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-3xl font-serif font-bold text-amber-900 mb-8">Minha Conta</h1>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <div className="text-center mb-6">
+                  <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <User className="w-10 h-10 text-amber-800" />
+                  </div>
+                  <h3 className="font-bold">Maria Silva</h3>
+                  <p className="text-gray-600 text-sm">marias@email.com</p>
+                </div>
+                
+                <nav className="space-y-2">
+                  <button
+                    onClick={() => setActiveTab('orders')}
+                    className={`w-full text-left px-4 py-2 rounded-md ${
+                      activeTab === 'orders' ? 'bg-amber-50 text-amber-800' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    Meus Pedidos
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('addresses')}
+                    className={`w-full text-left px-4 py-2 rounded-md ${
+                      activeTab === 'addresses' ? 'bg-amber-50 text-amber-800' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    Endereços
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('profile')}
+                    className={`w-full text-left px-4 py-2 rounded-md ${
+                      activeTab === 'profile' ? 'bg-amber-50 text-amber-800' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    Dados Pessoais
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('wishlist')}
+                    className={`w-full text-left px-4 py-2 rounded-md ${
+                      activeTab === 'wishlist' ? 'bg-amber-50 text-amber-800' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    Lista de Desejos
+                  </button>
+                </nav>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-3">
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                {activeTab === 'orders' && (
+                  <div>
+                    <h2 className="text-xl font-bold mb-6">Meus Pedidos</h2>
+                    <div className="space-y-4">
+                      {orders.map(order => (
+                        <div key={order.id} className="border border-gray-200 rounded-lg p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h3 className="font-bold">{order.id}</h3>
+                              <p className="text-gray-600 text-sm">{order.date}</p>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-sm ${
+                              order.status === 'Entregue' ? 'bg-green-100 text-green-800' :
+                              order.status === 'Em trânsito' ? 'bg-blue-100 text-blue-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {order.status}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="font-bold">R$ {order.total.toFixed(2)}</span>
+                            <button className="text-amber-800 hover:text-amber-600 text-sm">
+                              Ver Detalhes
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {activeTab === 'addresses' && (
+                  <div>
+                    <h2 className="text-xl font-bold mb-6">Meus Endereços</h2>
+                    <div className="border border-gray-200 rounded-lg p-4 mb-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-bold">Endereço Principal</h3>
+                          <p className="text-gray-600">Rua das Flores, 123</p>
+                          <p className="text-gray-600">São Paulo, SP - 01234-567</p>
+                        </div>
+                        <button className="text-amber-800 hover:text-amber-600">
+                          Editar
+                        </button>
+                      </div>
+                    </div>
+                    <button className="border border-amber-800 text-amber-800 px-4 py-2 rounded-md hover:bg-amber-50">
+                      Adicionar Novo Endereço
+                    </button>
+                  </div>
+                )}
+                
+                {activeTab === 'profile' && (
+                  <div>
+                    <h2 className="text-xl font-bold mb-6">Dados Pessoais</h2>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Nome</label>
+                          <input
+                            type="text"
+                            defaultValue="Maria"
+                            className="w-full p-3 border border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Sobrenome</label>
+                          <input
+                            type="text"
+                            defaultValue="Silva"
+                            className="w-full p-3 border border-gray-300 rounded-md"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">E-mail</label>
+                        <input
+                          type="email"
+                          defaultValue="marias@email.com"
+                          className="w-full p-3 border border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">CPF</label>
+                          <input
+                            type="text"
+                            defaultValue="123.456.789-00"
+                            className="w-full p-3 border border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Telefone</label>
+                          <input
+                            type="tel"
+                            defaultValue="(11) 99999-9999"
+                            className="w-full p-3 border border-gray-300 rounded-md"
+                          />
+                        </div>
+                      </div>
+                      <button className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors">
+                        Salvar Alterações
+                      </button>
+                    </form>
+                  </div>
+                )}
+                
+                {activeTab === 'wishlist' && (
+                  <div>
+                    <h2 className="text-xl font-bold mb-6">Lista de Desejos</h2>
+                    {wishlist.length > 0 ? (
+                      <ProductGrid products={wishlist} />
+                    ) : (
+                      <div className="text-center py-12">
+                        <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <p className="text-gray-500 mb-4">Sua lista de desejos está vazia</p>
+                        <button 
+                          onClick={() => setCurrentPage('shop')}
+                          className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+                        >
+                          Explorar Produtos
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const AboutPage = () => {
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-serif font-bold text-amber-900 mb-4">Sobre a Laymi Store</h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Fundada em 2020, a Laymi Store nasceu do desejo de oferecer roupas femininas 
+              que combinam elegância, conforto e versatilidade.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <div>
+              <h2 className="text-2xl font-serif font-bold text-amber-900 mb-4">Nossa Missão</h2>
+              <p className="text-gray-700 mb-4">
+                Empoderar mulheres através da moda, criando peças que celebram a individualidade 
+                e a confiança. Acreditamos que cada mulher merece se sentir especial todos os dias.
+              </p>
+              <p className="text-gray-700">
+                Trabalhamos com tecidos sustentáveis e acabamentos de alta qualidade para garantir 
+                peças que duram, combinando estilo contemporâneo com responsabilidade ambiental.
+              </p>
+            </div>
+            <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
+              <img 
+                src="https://placehold.co/400x300/f5f1e6/8b7355?text=Nossa+Missão" 
+                alt="Nossa Missão" 
+                className="max-w-full max-h-full object-cover rounded-lg"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center order-2 md:order-1">
+              <img 
+                src="https://placehold.co/400x300/f8e6e6/8b7355?text=Nossa+História" 
+                alt="Nossa História" 
+                className="max-w-full max-h-full object-cover rounded-lg"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h2 className="text-2xl font-serif font-bold text-amber-900 mb-4">Nossa História</h2>
+              <p className="text-gray-700 mb-4">
+                Começamos como uma pequena boutique online com o sonho de oferecer moda feminina 
+                de qualidade a preços acessíveis. Hoje, somos reconhecidos por nossa atenção aos 
+                detalhes e compromisso com a satisfação da cliente.
+              </p>
+              <p className="text-gray-700">
+                Cada coleção é cuidadosamente desenvolvida pensando no estilo contemporâneo e nas 
+                necessidades do dia a dia moderno. Nossa equipe de designers trabalha incansavelmente 
+                para criar peças que fazem a diferença no guarda-roupa de cada mulher.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h2 className="text-2xl font-serif font-bold text-amber-900 mb-8">Nossos Valores</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Heart className="w-6 h-6 text-amber-800" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Qualidade</h3>
+                <p className="text-gray-600">
+                  Compromisso com materiais premium e acabamentos impecáveis
+                </p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-6 h-6 text-amber-800" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Sustentabilidade</h3>
+                <p className="text-gray-600">
+                  Práticas responsáveis e materiais ecológicos em nossos processos
+                </p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-6 h-6 text-amber-800" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">Empoderamento</h3>
+                <p className="text-gray-600">
+                  Celebrando a individualidade e confiança de cada mulher
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const ContactPage = () => {
+    const [contactForm, setContactForm] = useState({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+
+    const handleContactChange = (e) => {
+      setContactForm({
+        ...contactForm,
+        [e.target.name]: e.target.value
+      });
+    };
+
+    const handleContactSubmit = (e) => {
+      e.preventDefault();
+      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+      setContactForm({ name: '', email: '', subject: '', message: '' });
+    };
+
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-serif font-bold text-amber-900 mb-4">Entre em Contato</h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Estamos aqui para ajudar. Entre em contato conosco através dos canais abaixo 
+              ou envie uma mensagem diretamente.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
+                <h2 className="text-2xl font-bold text-amber-900 mb-6">Informações de Contato</h2>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                      <Mail className="w-6 h-6 text-amber-800" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-1">E-mail</h3>
+                      <p className="text-gray-600">contato@laymistore.com.br</p>
+                      <p className="text-gray-600">suporte@laymistore.com.br</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                      <Phone className="w-6 h-6 text-amber-800" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-1">Telefone</h3>
+                      <p className="text-gray-600">(11) 99999-9999</p>
+                      <p className="text-gray-600">Segunda a Sexta, 9h às 18h</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                      <MapPin className="w-6 h-6 text-amber-800" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-1">Endereço</h3>
+                      <p className="text-gray-600">Rua das Flores, 123</p>
+                      <p className="text-gray-600">São Paulo, SP - 01234-567</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg shadow-sm p-8">
+                <h2 className="text-2xl font-bold text-amber-900 mb-6">Redes Sociais</h2>
+                <div className="flex space-x-4">
+                  <a href="#" className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
+                    <Facebook className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center text-white hover:bg-pink-700 transition-colors">
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-blue-500 transition-colors">
+                    <Twitter className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center text-white hover:bg-blue-800 transition-colors">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-sm p-8">
+              <h2 className="text-2xl font-bold text-amber-900 mb-6">Envie uma Mensagem</h2>
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Nome</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={contactForm.name}
+                      onChange={handleContactChange}
+                      className="w-full p-3 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">E-mail</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={contactForm.email}
+                      onChange={handleContactChange}
+                      className="w-full p-3 border border-gray-300 rounded-md"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Assunto</label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={contactForm.subject}
+                    onChange={handleContactChange}
+                    className="w-full p-3 border border-gray-300 rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Mensagem</label>
+                  <textarea
+                    name="message"
+                    value={contactForm.message}
+                    onChange={handleContactChange}
+                    rows={5}
+                    className="w-full p-3 border border-gray-300 rounded-md"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors w-full"
+                >
+                  Enviar Mensagem
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const FAQPage = () => {
+    const [openQuestion, setOpenQuestion] = useState(null);
+
+    const faqs = [
+      {
+        question: "Como faço para trocar um produto?",
+        answer: "Aceitamos trocas dentro do prazo de 30 dias após a compra. O produto deve estar em perfeitas condições, com todas as etiquetas. Entre em contato conosco através do e-mail trocas@laymistore.com.br para iniciar o processo."
+      },
+      {
+        question: "Quais são as formas de pagamento disponíveis?",
+        answer: "Aceitamos cartões de crédito (todas as bandeiras), PIX, boleto bancário e carteiras digitais como Mercado Pago e PayPal."
+      },
+      {
+        question: "Qual o prazo de entrega?",
+        answer: "O prazo de entrega varia de 3 a 10 dias úteis, dependendo da região e do tipo de frete selecionado. Para frete expresso, o prazo é de 1 a 3 dias úteis."
+      },
+      {
+        question: "Como faço para rastrear meu pedido?",
+        answer: "Assim que seu pedido for enviado, você receberá um e-mail com o código de rastreio. Você também pode acompanhar o status do seu pedido na área 'Meus Pedidos' do seu cadastro."
+      },
+      {
+        question: "Posso alterar meu pedido após a compra?",
+        answer: "Enquanto o pedido estiver com status 'Em separação', é possível alterar. Após o envio, não é mais possível fazer alterações. Entre em contato conosco imediatamente caso precise de alguma alteração."
+      }
+    ];
+
+    return (
+      <div className="pt-24 pb-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-serif font-bold text-amber-900 mb-4">Perguntas Frequentes</h1>
+            <p className="text-gray-600">
+              Encontre respostas para as dúvidas mais comuns sobre nossos produtos e serviços
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="border border-gray-200 rounded-lg">
+                <button
+                  onClick={() => setOpenQuestion(openQuestion === index ? null : index)}
+                  className="w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-medium text-lg">{faq.question}</span>
+                  <ChevronDown className={`w-5 h-5 transition-transform ${openQuestion === index ? 'rotate-180' : ''}`} />
+                </button>
+                {openQuestion === index && (
+                  <div className="px-6 pb-6 text-gray-600">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 bg-amber-50 rounded-lg p-8 text-center">
+            <h2 className="text-2xl font-bold text-amber-900 mb-4">Não encontrou sua dúvida?</h2>
+            <p className="text-gray-600 mb-6">
+              Entre em contato conosco que teremos prazer em ajudar
+            </p>
+            <button 
+              onClick={() => setCurrentPage('contact')}
+              className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+            >
+              Fale Conosco
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const Footer = () => {
+    return (
+      <footer className="bg-gray-900 text-white pt-16 pb-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-amber-400 mb-4">
+                Laymi<span className="text-white">Store</span>
+              </h3>
+              <p className="text-gray-400 mb-4">
+                Elegância feminina para todas as ocasiões. Peças únicas que celebram a individualidade.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
+                  <Linkedin className="w-5 h-5" />
                 </a>
               </div>
-        </div>
-        
-        
             </div>
             
-            <div class="lg:w-1/2">
-                <div class="bg-gray-50 p-8 rounded-xl h-full">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Informações de Contato</h3>
-                    
-                    <div class="mb-8 space-y-6">
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">WhatsApp</h4>
-                                <p class="text-gray-600">(44) 9 9115-8956</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">E-mail</h4>
-                                <p class="text-gray-600">atendimentovivoempresas@jmztecom.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="vivo-purple-text mr-4 mt-1">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800">Endereço</h4>
-                                <p class="text-gray-600">Av. Osíres Stenghel Guimarães 449- Maringá, PR</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14625.79936019051!2d-51.937788!3d-23.5866285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ecd0c773b7d48d%3A0x6a5e5a3bcd985940!2sAv.%20Os%C3%ADres%20Stenghel%20Guimar%C3%A3es%20-%20Maring%C3%A1%2C%20PR!5e0!3m2!1spt-BR!2sbr!4v1689872433455!5m2!1spt-BR!2sbr" 
-                            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-lg"></iframe>
-                    </div>
-                </div>
+            <div>
+              <h4 className="font-bold text-lg mb-4">Institucional</h4>
+              <ul className="space-y-2">
+                <li><button onClick={() => setCurrentPage('about')} className="text-gray-400 hover:text-amber-400 transition-colors">Sobre a Marca</button></li>
+                <li><button onClick={() => setCurrentPage('faq')} className="text-gray-400 hover:text-amber-400 transition-colors">FAQ</button></li>
+                <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Política de Trocas</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Política de Privacidade</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Termos de Uso</a></li>
+              </ul>
             </div>
+            
+            <div>
+              <h4 className="font-bold text-lg mb-4">Ajuda</h4>
+              <ul className="space-y-2">
+                <li><button onClick={() => setCurrentPage('contact')} className="text-gray-400 hover:text-amber-400 transition-colors">Contato</button></li>
+                <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Rastrear Pedido</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Formas de Pagamento</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">Entregas</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-bold text-lg mb-4">Newsletter</h4>
+              <p className="text-gray-400 mb-4">
+                Receba novidades e cupons exclusivos
+              </p>
+              <div className="flex">
+                <input
+                  type="email"
+                  placeholder="Seu e-mail"
+                  className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+                <button className="bg-amber-600 px-4 py-2 rounded-r-md hover:bg-amber-500 transition-colors">
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 text-center">
+            <p className="text-gray-400">
+              © 2024 Laymi Store - Todos os direitos reservados
+            </p>
+          </div>
         </div>
+      </footer>
+    );
+  };
+
+  const NewsletterPopup = () => {
+    const [email, setEmail] = useState('');
+
+    if (!showNewsletterPopup) return null;
+
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+        onClick={() => setShowNewsletterPopup(false)}
+      >
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="bg-white rounded-lg p-8 max-w-md w-full"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => setShowNewsletterPopup(false)}
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          
+          <div className="text-center">
+            <h2 className="text-2xl font-serif font-bold text-amber-900 mb-4">
+              Receba 10% de Desconto
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Inscreva-se na nossa newsletter e receba um cupom exclusivo para sua primeira compra
+            </p>
+            
+            <div className="space-y-4">
+              <input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+              <button className="w-full bg-amber-800 text-white py-3 rounded-md font-medium hover:bg-amber-700 transition-colors">
+                Quero Meu Desconto
+              </button>
+              <p className="text-xs text-gray-500">
+                Ao se inscrever, você concorda com nossa Política de Privacidade
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  };
+
+  const WhatsAppButton = () => {
+    return (
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setShowChat(!showChat)}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg z-40"
+      >
+        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </motion.button>
+    );
+  };
+
+  const ChatWidget = () => {
+    if (!showChat) return null;
+
+    const handleSendMessage = () => {
+      if (chatInput.trim()) {
+        setChatMessages([...chatMessages, { text: chatInput, sender: 'user' }]);
+        setChatInput('');
+        // Simulate auto-reply
+        setTimeout(() => {
+          setChatMessages(prev => [...prev, { 
+            text: 'Obrigada pelo contato! Nossa equipe responderá em breve.', 
+            sender: 'agent' 
+          }]);
+        }, 1000);
+      }
+    };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="fixed bottom-24 right-6 w-80 h-96 bg-white rounded-lg shadow-xl z-40 flex flex-col"
+      >
+        <div className="bg-green-500 text-white p-4 rounded-t-lg flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2">
+              <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+              </svg>
+            </div>
+            <span className="font-medium">Atendimento Laymi</span>
+          </div>
+          <button onClick={() => setShowChat(false)}>
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
+          {chatMessages.length === 0 ? (
+            <div className="text-center text-gray-500 mt-8">
+              <p>Olá! Como podemos ajudar?</p>
+            </div>
+          ) : (
+            chatMessages.map((msg, index) => (
+              <div key={index} className={`mb-3 ${msg.sender === 'user' ? 'text-right' : ''}`}>
+                <div className={`inline-block p-3 rounded-lg max-w-xs ${
+                  msg.sender === 'user' 
+                    ? 'bg-amber-800 text-white' 
+                    : 'bg-white border border-gray-200'
+                }`}>
+                  {msg.text}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        
+        <div className="p-4 border-t border-gray-200">
+          <div className="flex">
+            <input
+              type="text"
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              placeholder="Digite sua mensagem..."
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+            <button
+              onClick={handleSendMessage}
+              className="bg-amber-800 text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition-colors"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
+
+  // Renderização condicional das páginas
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage />;
+      case 'shop':
+        return <ShopPage />;
+      case 'product':
+        return <ProductPage />;
+      case 'cart':
+        return <CartPage />;
+      case 'checkout':
+        return <CheckoutPage />;
+      case 'account':
+        return <AccountPage />;
+      case 'wishlist':
+        return (
+          <div className="pt-24 pb-16 px-4">
+            <div className="max-w-7xl mx-auto">
+              <h1 className="text-3xl font-serif font-bold text-amber-900 mb-8">Lista de Desejos</h1>
+              {wishlist.length > 0 ? (
+                <ProductGrid products={wishlist} />
+              ) : (
+                <div className="text-center py-12">
+                  <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500 mb-4">Sua lista de desejos está vazia</p>
+                  <button 
+                    onClick={() => setCurrentPage('shop')}
+                    className="bg-amber-800 text-white px-6 py-3 rounded-md font-medium hover:bg-amber-700 transition-colors"
+                  >
+                    Explorar Produtos
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      case 'about':
+        return <AboutPage />;
+      case 'contact':
+        return <ContactPage />;
+      case 'faq':
+        return <FAQPage />;
+      default:
+        return <HomePage />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      <main>
+        {renderPage()}
+      </main>
+      <Footer />
+      <WhatsAppButton />
+      <ChatWidget />
+      <NewsletterPopup />
     </div>
-</section>
+  );
+};
 
-    </section>
-
-    <!-- Footer -->
-    <footer class="vivo-purple text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <a href="https://yuremachar.github.io/Jmztelecom/"><img src="https://i.ibb.co/nMJdzHFZ/Sem-T-tulo-4.png" alt="Sem-T-tulo-4" border="0"></a>     
-                            <span class="ml-2 text-purple-200 font-small text-sm">Parceiro autorizado</span>
-                    </div>
-                    <p class="text-purple-200 text-sm">Parceira oficial Vivo Empresas com soluções em telecomunicações para empresas de todos os portes.</p>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Links Rápidos</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#home" class="text-purple-200 hover:text-white transition-colors text-sm">Início</a></li>
-                        <li><a href="#about" class="text-purple-200 hover:text-white transition-colors text-sm">Quem Somos</a></li>
-                        <li><a href="#services" class="text-purple-200 hover:text-white transition-colors text-sm">Serviços</a></li>
-                        <li><a href="#advantages" class="text-purple-200 hover:text-white transition-colors text-sm">Diferenciais</a></li>
-                        <li><a href="#contact" class="text-purple-200 hover:text-white transition-colors text-sm">Contato</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Serviços</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Planos Móveis</a></li>
-                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Internet Fibra</a></li>
-                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Portabilidade</a></li>
-                        <li><a href="#" class="text-purple-200 hover:text-white transition-colors text-sm">Atendimento Consultivo</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contato</h4>
-                    <ul class="space-y-2">
-                        <li class="flex items-start">
-                            <i class="fas fa-phone-alt mt-1 mr-2 text-purple-200 text-sm"></i>
-                            <span class="text-purple-200 text-sm">(44) 9 9115-8956</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-envelope mt-1 mr-2 text-purple-200 text-sm"></i>
-                            <span class="text-purple-200 text-sm">atendimentovivoempresas@jmztecom.com</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-purple-200 text-sm"></i>
-                            <span class="text-purple-200 text-sm">Maringá - PR</span>
-                        </li>
-                    </ul>
-                    
-                    <div class="mt-4 flex space-x-4">
-                        <a href="#" class="text-purple-200 hover:text-white text-lg"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-purple-200 hover:text-white text-lg"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-purple-200 hover:text-white text-lg"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-purple-800 mt-8 pt-8 text-center text-purple-200 text-sm">
-                <p>&copy; 2020 JMZ Telecom - Parceira Vivo Empresas. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    const mobileMenu = document.getElementById('mobile-menu');
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
-            });
-        });
-        
-        // Form submission
-        const contactForm = document.querySelector('form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Here you would typically send the form data to your server
-                alert('Obrigado pelo seu contato! Nossa equipe entrará em contato em breve.');
-                this.reset();
-            });
-        }
-    </script>
-</html>
+export default App;
